@@ -13,6 +13,7 @@ export function CreateTripPage() {
     const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
     const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
     const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const [destination, setDestination] = useState('');
@@ -66,6 +67,8 @@ export function CreateTripPage() {
     async function createTrip(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        setIsLoading(true);
+
         if (!destination) {
             return
         }
@@ -92,6 +95,8 @@ export function CreateTripPage() {
         })
 
         const { tripId } = response.data;
+
+        setIsLoading(false);
 
         navigate(`/trips/${tripId}`);
     }
@@ -143,6 +148,9 @@ export function CreateTripPage() {
                     createTrip={createTrip}
                     setOwnerName={setOwnerName}
                     setOwnerEmail={setOwnerEmail}
+                    destination={destination}
+                    eventStartAndEndDates={eventStartAndEndDates}
+                    isLoading={isLoading}
                 />
             )}
         </div>

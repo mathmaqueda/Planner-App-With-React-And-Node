@@ -1,6 +1,6 @@
 import { CheckCircle2, CircleDashed, Mail, User, UserCog } from "lucide-react";
 import { Button } from "../../components/button";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Modal } from "../../components/modal";
 import { Input } from "../../components/input";
 import { useParams } from "react-router-dom";
@@ -29,6 +29,21 @@ export function Guests() {
 
     function closeCreateGuestsModal() {
         setIsCreateGuestsModalOpen(false);
+    }
+
+    function createInvite(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const data = new FormData(event.currentTarget);
+        const name = data.get('name')?.toString();
+        const email = data.get('email')?.toString();
+
+        api.post(`trips/${tripId}/invites`, {
+            name,
+            email
+        })
+
+        window.document.location.reload();
     }
 
     return (
@@ -61,10 +76,10 @@ export function Guests() {
             {isCreateGuestsModalOpen && (
                 <Modal
                     title="Cadastrar convidado"
-                    subtitle="Todos convidados receberão emails para confirmar presença."
+                    subtitle="O convidado receberá um email para confirmar presença."
                     closeModalFunction={closeCreateGuestsModal}
                 >
-                    <form className="space-y-3">
+                    <form onSubmit={createInvite} className="space-y-3">
                         <Input
                             icon={<User className="text-zinc-400 size-5" />}
                             type="text"

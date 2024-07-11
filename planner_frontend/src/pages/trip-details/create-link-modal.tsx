@@ -14,8 +14,10 @@ export function CreateLinkModal({
     closeCreateLinkModal
 }: CreateLinkModalProps) {
     const {tripId} = useParams();
+
     function createActivity(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        
         const data = new FormData(event.currentTarget);
         const title = data.get('title')?.toString();
         const url = data.get('link')?.toString();
