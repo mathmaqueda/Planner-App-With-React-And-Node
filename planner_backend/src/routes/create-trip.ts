@@ -8,7 +8,7 @@ import { getMailClient } from "../lib/mail";
 import { ClientError } from "../errors/client-error";
 import { env } from "../env";
 
-export async function createTrip(app: FastifyInstance) {
+export function createTrip(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>().post("/trips", {
         schema: {
             body: z.object({
